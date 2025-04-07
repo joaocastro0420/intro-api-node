@@ -18,6 +18,7 @@
 --
 -- Table structure for table `transacoes`
 --
+SELECT trans_id, usu_id, skin_id, trans_valor, trans_status, trans_data FROM transacoes;
 
 DROP TABLE IF EXISTS `transacoes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
