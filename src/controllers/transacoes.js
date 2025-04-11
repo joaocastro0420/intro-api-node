@@ -3,10 +3,16 @@ const db = require('../dataBase/connection');
 module.exports = {
     async listarTransacoes(request, response) {
         try {
+
+            const sql = 'SELECT trans_id, usu_id, skin_id, trans_valor, trans_status, trans_data FROM transacoes;'
+
+            const [rows] = await db.query(sql);
+
             return response.status(200).json({
                 sucess: true,
                 message: 'lista de transacoes',
-                dados: null
+                itens: rows.length,
+                dados: rows
             });
         } catch (error) {
             return response.status(200).json({
