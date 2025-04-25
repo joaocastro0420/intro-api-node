@@ -3,8 +3,7 @@ const db = require('../dataBase/connection');
 module.exports = {
     async listarTransacoes(request, response) {
         try {
-
-            const sql = 'SELECT trans_id, usu_id, skin_id, trans_valor, trans_status, trans_data FROM transacoes;'
+             const sql = 'SELECT trans_id, usu_id, skin_id, trans_valor, trans_status, trans_data FROM transacoes;'
 
             const [rows] = await db.query(sql);
 
@@ -24,10 +23,40 @@ module.exports = {
     },
     async cadastrarTransacoes(request, response) {
         try {
+            const { usu_id, skin_id, trans_valor, trans_status, trans_data}= request.body;
+             
+
+            // introdução SQL
+            const sql = 
+           ` INSERT INTO transacoes 
+                (usu_id, skin_id, trans_valor, trans_status, trans_data)
+            VALUES 
+                (?, ?, ?, ?, ?);
+
+            `;
+
+            //definição dos dados a serem inseridos em um array 
+            const values = [ usu_id, skin_id, trans_valor, trans_status, trans_data];
+
+            //execução da intrução sql passando os parametros
+            const [result] = await db.query(sql, values);
+
+            //identificação do id do registro inserido
+            const dados = {
+                id: result.insertId,
+                trans_valor,
+                trans_data,
+                
+            };
+
+
+
+
+
             return response.status(200).json({
                 sucess: true,
                 message: 'cadastro de transacoes',
-                dados: null
+                dados 
             });
         } catch (error) {
             return response.status(200).json({
